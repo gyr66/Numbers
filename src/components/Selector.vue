@@ -50,6 +50,7 @@ export default {
   width: 30%;
   background-color: lightgreen;
   color: green;
+  font-size: xxx-large;
 }
 
 </style>
