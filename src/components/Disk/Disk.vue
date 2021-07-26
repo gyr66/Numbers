@@ -44,7 +44,6 @@ export default {
       numbers: Array,
       blankPos: Number,
       pos: Array,
-      eleArray: Array,
       tdWidth: Number,
       isChallenging: false,
       steps: 0,
@@ -66,7 +65,13 @@ export default {
   mounted() {
     let td_selector = $("td");
     let span_selector = $("span");
-    this.eleArray = td_selector;
+    let lattice = document.getElementsByTagName("td");
+    for (let el of lattice) {
+      if (el.innerText === "") {
+        this.empEle = el;
+        break;
+      }
+    }
     $("table").css("height", this.tableWidth).css("width", this.tableWidth);
     $("#addArea").css("margin-top", this.tableWidth * 0.1);
     td_selector.each((index, node) => this.pos[index] = $(node).position());
@@ -90,8 +95,7 @@ export default {
     numberClick(event) {
       let blankPos = this.blankPos;
       let el = event.currentTarget;
-      let bEl = this.eleArray[blankPos];
-      console.log($(el).text().length)
+      let bEl = this.empEle;
       if (el === bEl) return;
       let curNum = Number($(el).text());
       let currentPos;
@@ -120,8 +124,6 @@ export default {
       }
       this.numbers[blankPos] = this.numbers[currentPos];
       this.numbers[currentPos] = this.dimension * this.dimension;
-      this.eleArray[currentPos] = bEl;
-      this.eleArray[blankPos] = el;
       this.blankPos = currentPos;
       if (this.isChallenging && check(this.numbers, this.dimension)) {
         this.isChallenging = false;
@@ -173,7 +175,7 @@ export default {
       for (let i = 0; i < MAX_NUMBER; i++) {
         for (let j = 0; j < MAX_NUMBER; j++) {
           let value;
-          if ($(numbers[j]).text().length === 2) value = MAX_NUMBER;
+          if (numbers[j].innerText === "") value = MAX_NUMBER;
           else value = Number($(numbers[j]).text());
           if (value === this.numbers[i]) {
             temp[i] = numbers[j];
@@ -188,6 +190,7 @@ export default {
           $(temp[i]).children().eq(0).text(this.numbers[i]);
         else {
           $(temp[i]).children().eq(0).text("");
+          this.empEle = temp[i];
           this.blankPos = i;
         }
       }
