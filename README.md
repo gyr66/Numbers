@@ -1,1 +1,1 @@
-# 一个数码棋盘
+# A digital chessboard
