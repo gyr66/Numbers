@@ -21,8 +21,8 @@ function hasSolution(array, dimension) {
       if (array[i] > array[j]) cnt++;
     }
   }
-  let row;
   if (MAX_NUMBER % 2) return cnt % 2 === 0;
+  let row;
   for (let i = 0; i < array.length; i++) {
     if (array[i] === MAX_NUMBER) {
       row = i / dimension;
@@ -30,8 +30,8 @@ function hasSolution(array, dimension) {
     }
   }
   let delta = dimension - row - 1;
-  if (cnt % 2) return delta % 2;
-  else return delta % 2 === 0;
+  cnt += delta;
+  return cnt % 2 === 0;
 }
 
 function getRandomStatus(dimension) {

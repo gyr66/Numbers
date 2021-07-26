@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <selector @confirmClick="confirmClick" />
+    <selector @selectChange="selectChange" />
     <Disk :dimension="dimension" :key="componentKey" @success="success"/>
   </div>
 </template>
@@ -28,10 +28,9 @@ export default {
       }, 200);
     },
 
-    confirmClick(dimension) {
+    selectChange(dimension) {
       this.dimension = Number(dimension);
       this.componentKey = !this.componentKey
-      console.log(this.dimension)
     }
   }
 }

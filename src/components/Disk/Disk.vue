@@ -170,7 +170,7 @@ export default {
     startClick() {
       this.isChallenging = !this.isChallenging;
       clearInterval(this.timer);
-      this.seconds = 0;
+      this.seconds = this.steps = 0;
       this.timer = setInterval(() => this.seconds++, 1000);
       let newDisk = getRandomStatus(this.dimension);
       const MAX_NUMBER = this.dimension * this.dimension;
