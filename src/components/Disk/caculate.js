@@ -10,7 +10,6 @@ function checkPosition(s, t, dimension) {
 }
 
 function hasSolution(array, dimension) {
-  return true
   // 当N为奇数时，当两个N数码的逆序数奇偶性相同时，可以互达，否则不行；
   // 当N为偶数时，当两个N数码的奇偶性相同的话，那么两个N数码中的0所在行的差值delta，delta也必须是偶数时，才能互达；
   // 当两个N数码的奇偶性不同时，那么两个N数码中的0所在行的差值delta，delta也必须是奇数时，才能互达；
@@ -41,10 +40,10 @@ function getRandomStatus(dimension) {
   for (let i = 0; i < array.length; i++) {
     array[i] = i + 1;
   }
-  const random_sort = (a, b) => Math.random() > .5 ? -1 : 1;
+  const random_sort = () => Math.random() > .5 ? -1 : 1;
   do {
     array.sort(random_sort);
-  } while (!hasSolution(array));
+  } while (!hasSolution(array, dimension));
   return array;
 }
 
