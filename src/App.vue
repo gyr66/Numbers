@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <selector/>
+    <selector @confirmClick="confirmClick" />
     <Disk :dimension="dimension" :key="componentKey" @success="success"/>
   </div>
 </template>
@@ -13,7 +13,7 @@ export default {
   name: 'App',
   data() {
     return {
-      dimension: 5,
+      dimension: 4,
       componentKey: 0,
     }
   },
@@ -22,14 +22,16 @@ export default {
     Disk
   },
   methods: {
-    btnClick() {
-      this.componentKey = !this.componentKey;
-      this.dimension++;
-    },
     success(obj) {
       setTimeout(() => {
         alert("成功!\n用时: " + obj.time + "秒 花费: " + obj.step + "步");
       }, 200);
+    },
+
+    confirmClick(dimension) {
+      this.dimension = Number(dimension);
+      this.componentKey = !this.componentKey
+      console.log(this.dimension)
     }
   }
 }

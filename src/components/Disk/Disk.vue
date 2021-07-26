@@ -48,7 +48,8 @@ export default {
       isChallenging: false,
       steps: 0,
       seconds: 0,
-      empEle: Object
+      empEle: Object,
+      timer: undefined
     }
   },
 
@@ -128,7 +129,7 @@ export default {
       if (this.isChallenging && check(this.numbers, this.dimension)) {
         this.isChallenging = false;
         this.$emit("success", {
-          time: this.steps,
+          time: this.seconds,
           step: this.steps
         });
       }
@@ -168,6 +169,9 @@ export default {
 
     startClick() {
       this.isChallenging = !this.isChallenging;
+      clearInterval(this.timer);
+      this.seconds = 0;
+      this.timer = setInterval(() => this.seconds++, 1000);
       let newDisk = getRandomStatus(this.dimension);
       const MAX_NUMBER = this.dimension * this.dimension;
       let numbers = document.getElementsByTagName("td");

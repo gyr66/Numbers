@@ -1,23 +1,33 @@
 <template>
   <div id="selector">
     <div id="choice">
-      <select>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        <option>6</option>
-        <option>7</option>
-        <option>8</option>
-        <option>9</option>
+      <select v-model="choice">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
       </select>
-      <button id="confirm">确定</button>
+      <button id="confirm" @click="confirmClick">确定</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "selector"
+  name: "selector",
+  data() {
+    return {
+      choice: 4
+    }
+  },
+  methods: {
+    confirmClick() {
+      this.$emit("confirmClick", this.choice);
+    }
+  }
 }
 </script>
 
