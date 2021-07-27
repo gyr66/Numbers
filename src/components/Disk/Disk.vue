@@ -35,7 +35,7 @@ export default {
     },
     tableWidth: {
       type: Number,
-      default: 500
+      default: 250
     }
   },
 
