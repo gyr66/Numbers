@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "selector",
+  name: "Selector",
   data() {
     return {
       choice: 4

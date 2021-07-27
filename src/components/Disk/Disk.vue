@@ -27,7 +27,6 @@ import {checkPosition, check, getRandomStatus} from "@/components/Disk/caculate"
 
 export default {
   name: "Disk",
-
   props: {
     dimension: {
       type: Number,
@@ -35,7 +34,7 @@ export default {
     },
     tableWidth: {
       type: Number,
-      default: 250
+      default: 400
     }
   },
 
@@ -64,16 +63,16 @@ export default {
   },
 
   mounted() {
-    let td_selector = $("td");
-    let span_selector = $("span");
-    let lattice = document.getElementsByTagName("td");
+    let td_selector = $("#disk td");
+    let span_selector = $("#disk span");
+    let lattice = document.querySelectorAll("#disk td");
     for (let el of lattice) {
       if (el.innerText === "") {
         this.empEle = el;
         break;
       }
     }
-    $("table").css("height", this.tableWidth).css("width", this.tableWidth);
+    $("#disk table").css("height", this.tableWidth).css("width", this.tableWidth);
     $("#addArea").css("margin-top", this.tableWidth * 0.1);
     td_selector.each((index, node) => this.pos[index] = $(node).position());
     this.tdWidth = td_selector.width();
