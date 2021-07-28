@@ -1,10 +1,11 @@
 // 配置路由信息
 import VueRouter from "vue-router"
 import Vue from "vue"
-import ScoreList from "@/components/ScoreList";
-import ChallengeView from "@/components/ChallengeView";
 
 Vue.use(VueRouter);
+
+const ChallengeView = () => import("@/components/ChallengeView");
+const ScoreList = () => import("@/components/ScoreList");
 
 const routes = [
   {
