@@ -2,7 +2,9 @@
   <div id="app">
     <router-link to="/challengeView" tag="button">挑战</router-link>
     <router-link to="/scoreList" tag="button">历史记录</router-link>
-    <router-view />
+    <keep-alive exclude="ScoreList">
+      <router-view/>
+    </keep-alive>
   </div>
 </template>
 
