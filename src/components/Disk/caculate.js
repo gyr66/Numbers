@@ -2,11 +2,44 @@
 function checkPosition(s, t, dimension) {
   let rows = Math.floor(s / dimension), cols = s % dimension;
   let rowt = Math.floor(t / dimension), colt = t % dimension;
-  if (rowt === rows && colt === cols - 1) return 0; // 空格在当前格子的左边
-  if (rowt === rows && colt === cols + 1) return 1; // 空格在当前格子的右边
-  if (colt === cols && rowt === rows - 1) return 2; // 空格在当前格子的上面
-  if (colt === cols && rowt === rows + 1) return 3; // 空格在当前格子的下面
-  return -1; // 未相邻
+  if (rowt !== rows && colt !== cols) return -1;
+  let direction, path = [];
+  // direction {
+  //  0: 向右移
+  //  1: 向左移
+  //  2: 向下移
+  //  3: 向上移
+  // }
+  if (rows === rowt) {
+    if (s < t) {
+      direction = 0;
+      while (s < t) {
+        path.push(s);
+        s++;
+      }
+    } else {
+      direction = 1;
+      while (s > t) {
+        path.push(s);
+        s--;
+      }
+    }
+  } else {
+    if (s < t) {
+      direction = 2;
+      while (s < t) {
+        path.push(s);
+        s += dimension;
+      }
+    } else {
+      direction = 3;
+      while (s > t) {
+        path.push(s);
+        s -= dimension;
+      }
+    }
+  }
+  return { direction, path };
 }
 
 function hasSolution(array, dimension) {

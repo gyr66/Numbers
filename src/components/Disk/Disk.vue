@@ -2,7 +2,7 @@
   <div id="disk">
     <table>
       <tr v-for="i in dimension">
-        <td v-for="j in dimension" @click="numberClick">
+        <td v-for="j in dimension" @click="numberClick" :id="(i - 1) * dimension + j">
         <span>
           {{
             (i - 1) * dimension + j === dimension * dimension ? '' : (i - 1) * dimension + j
@@ -40,15 +40,17 @@ export default {
 
   data() {
     return {
-      numbers: Array,
+      numbers: [],
+
       blankPos: Number,
-      pos: Array,
+      pos: [],
       tdWidth: Number,
       isChallenging: false,
       steps: 0,
       seconds: 0,
       empEle: Object,
-      timer: undefined
+      timer: undefined,
+      numbersToCoordinate: []
     }
   },
 
@@ -60,6 +62,8 @@ export default {
       this.numbers[i - 1] = i;
     }
     this.blankPos = totalCount - 1;
+    for (let i = 1; i <= totalCount; i++)
+      this.numbersToCoordinate[i] = i - 1;
   },
 
   mounted() {
@@ -92,39 +96,46 @@ export default {
   },
 
   methods: {
+    update(currentPosition, curNum) {
+      this.numbers[this.blankPos] = this.numbers[currentPosition];
+      this.numbers[currentPosition] = this.dimension * this.dimension;
+      this.numbersToCoordinate[curNum] = this.blankPos;
+      this.numbersToCoordinate[this.dimension * this.dimension] = currentPosition;
+      this.blankPos = currentPosition;
+    },
+
     numberClick(event) {
       let blankPos = this.blankPos;
       let el = event.currentTarget;
       let bEl = this.empEle;
       if (el === bEl) return;
       let curNum = Number($(el).text());
-      let currentPos;
-      for (let i = 0; i < this.numbers.length; i++) {
-        if (this.numbers[i] === curNum) {
-          currentPos = i;
-          break;
-        }
-      }
+      let currentPos = this.numbersToCoordinate[curNum];
       let result = checkPosition(currentPos, blankPos, this.dimension);
       if (result === -1) return;
-      if (this.isChallenging)
-        this.steps++;
-      if (result === 0) {
-        this.leftMove(el, currentPos);
-        this.rightMove(bEl, blankPos);
-      } else if (result === 1) {
-        this.rightMove(el, currentPos);
-        this.leftMove(bEl, blankPos);
-      } else if (result === 2) {
-        this.upMove(el, currentPos);
-        this.downMove(bEl, blankPos);
-      } else if (result === 3) {
-        this.downMove(el, currentPos);
-        this.upMove(bEl, blankPos);
+      if (this.isChallenging) this.steps++;
+      let direction = result.direction, path = result.path;
+      if (direction === 0) {
+        while (path.length) {
+          let cur = path.pop();
+          this.rightMove(cur);
+        }
+      } else if (direction === 1) {
+        while (path.length) {
+          let cur = path.pop();
+          this.leftMove(cur);
+        }
+      } else if (direction === 2) {
+        while (path.length) {
+          let cur = path.pop();
+          this.downMove(cur);
+        }
+      } else {
+        while (path.length) {
+          let cur = path.pop();
+          this.upMove(cur);
+        }
       }
-      this.numbers[blankPos] = this.numbers[currentPos];
-      this.numbers[currentPos] = this.dimension * this.dimension;
-      this.blankPos = currentPos;
       if (this.isChallenging && check(this.numbers, this.dimension)) {
         this.isChallenging = false;
         this.$emit("success", {
@@ -134,36 +145,72 @@ export default {
       }
     },
 
-    leftMove(block, currentPosition) {
+    leftMove(currentPosition) {
+      let block = document.getElementById(this.numbers[currentPosition] + "");
+      let curNum = Number($(block).text());
       let p = this.pos[currentPosition];
-      $(block).stop().animate({
+      $(block).animate({
         left: p.left - this.tdWidth + "px",
         top: p.top + "px"
       }, 200);
-    },
-
-    rightMove(block, currentPosition) {
-      let p = this.pos[currentPosition];
-      $(block).stop().animate({
+      block = document.getElementById(this.numbers[currentPosition - 1] + "");
+      p = this.pos[currentPosition - 1];
+      $(block).animate({
         left: p.left + this.tdWidth + "px",
         top: p.top + "px"
       }, 200);
+      this.update(currentPosition, curNum);
     },
 
-    upMove(block, currentPosition) {
+    rightMove(currentPosition) {
+      let block = document.getElementById(this.numbers[currentPosition] + "");
+      let curNum = Number($(block).text());
       let p = this.pos[currentPosition];
-      $(block).stop().animate({
+      $(block).animate({
+        left: p.left + this.tdWidth + "px",
+        top: p.top + "px"
+      }, 200);
+      block = document.getElementById(this.numbers[currentPosition + 1] + "");
+      p = this.pos[currentPosition + 1];
+      $(block).animate({
+        left: p.left - this.tdWidth + "px",
+        top: p.top + "px"
+      }, 200);
+      this.update(currentPosition, curNum);
+    },
+
+    upMove(currentPosition) {
+      let block = document.getElementById(this.numbers[currentPosition] + "");
+      let curNum = Number($(block).text());
+      let p = this.pos[currentPosition];
+      $(block).animate({
         left: p.left + "px",
         top: p.top - this.tdWidth + "px"
       }, 200);
-    },
-
-    downMove(block, currentPosition) {
-      let p = this.pos[currentPosition];
-      $(block).stop().animate({
+      block = document.getElementById(this.numbers[currentPosition - this.dimension] + "");
+      p = this.pos[currentPosition - this.dimension];
+      $(block).animate({
         left: p.left + "px",
         top: p.top + this.tdWidth + "px"
       }, 200);
+      this.update(currentPosition, curNum);
+    },
+
+    downMove(currentPosition) {
+      let block = document.getElementById(this.numbers[currentPosition] + "");
+      let curNum = Number($(block).text());
+      let p = this.pos[currentPosition];
+      $(block).animate({
+        left: p.left + "px",
+        top: p.top + this.tdWidth + "px"
+      }, 200);
+      block = document.getElementById(this.numbers[currentPosition + this.dimension] + "");
+      p = this.pos[currentPosition + this.dimension];
+      $(block).animate({
+        left: p.left + "px",
+        top: p.top - this.tdWidth + "px"
+      }, 200);
+      this.update(currentPosition, curNum);
     },
 
     startClick() {
@@ -172,29 +219,13 @@ export default {
       this.seconds = this.steps = 0;
       this.timer = setInterval(() => this.seconds++, 1000);
       let newDisk = getRandomStatus(this.dimension);
-      const MAX_NUMBER = this.dimension * this.dimension;
-      let numbers = document.getElementsByTagName("td");
-      let temp = new Array(MAX_NUMBER);
-      for (let i = 0; i < MAX_NUMBER; i++) {
-        for (let j = 0; j < MAX_NUMBER; j++) {
-          let value;
-          if (numbers[j].innerText === "") value = MAX_NUMBER;
-          else value = Number($(numbers[j]).text());
-          if (value === this.numbers[i]) {
-            temp[i] = numbers[j];
-            break;
-          }
-        }
-      }
-      for (let i = 0; i < MAX_NUMBER; i++)
+      for (let i in newDisk) {
         this.numbers[i] = newDisk[i];
-      for (let i = 0; i < MAX_NUMBER; i++) {
-        if (this.numbers[i] < MAX_NUMBER)
-          $(temp[i]).children().eq(0).text(this.numbers[i]);
-        else {
-          $(temp[i]).children().eq(0).text("");
-          this.empEle = temp[i];
-          this.blankPos = i;
+        this.numbersToCoordinate[newDisk[i]] = Number(i);
+        $("#" + newDisk[i]).css("left", this.pos[i].left).css("top", this.pos[i].top);
+        if (newDisk[i] === this.dimension * this.dimension) {
+          this.blankPos = Number(i);
+          this.empEle = document.getElementById(newDisk[i] + "");
         }
       }
     }
