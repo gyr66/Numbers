@@ -23,7 +23,7 @@
 
 <script>
 import $ from "jquery"
-import {checkPosition, check, getRandomStatus} from "@/components/Disk/caculate";
+import {checkPosition, check, getRandomStatus} from "@/views/challenge/disk/caculate";
 
 export default {
   name: "Disk",
@@ -31,20 +31,15 @@ export default {
     dimension: {
       type: Number,
       default: 4
-    },
-    tableWidth: {
-      type: Number,
-      default: 400
     }
   },
 
   data() {
     return {
       numbers: [],
-
       blankPos: Number,
       pos: [],
-      tdWidth: Number,
+      tableWidth: Number,
       isChallenging: false,
       steps: 0,
       seconds: 0,
@@ -76,8 +71,9 @@ export default {
         break;
       }
     }
-    $("#disk table").css("height", this.tableWidth).css("width", this.tableWidth);
-    $("#addArea").css("margin-top", this.tableWidth * 0.1);
+    let table = $("#disk table")
+    this.tableWidth = table.width();
+    table.css("height", this.tableWidth).css("width", this.tableWidth);
     td_selector.each((index, node) => this.pos[index] = $(node).position());
     this.tdWidth = td_selector.width();
     //处理格子
@@ -235,14 +231,22 @@ export default {
 
 <style scoped>
 #disk {
+  width: 380px;
+  height: 500px;
   text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
   color: green;
 }
 
 #disk table {
   position: relative;
-  margin: auto;
-  text-align: center;
+  width: 372px;
+  left: 2px;
   background-color: lightgreen;
   border-spacing: 2px;
   -moz-user-select: none;
@@ -252,14 +256,15 @@ export default {
 
 #disk button {
   display: block;
-  position: relative;
   margin: auto;
   background-color: lightgreen;
   color: green;
-  font-size: xxx-large;
+  font-size: xx-large;
 }
 
 #addArea {
-  font-size: xxx-large;
+  position: relative;
+  margin-top: 100px;
+  font-size: xx-large;
 }
 </style>

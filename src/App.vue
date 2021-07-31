@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <router-link to="/challengeView" tag="button">挑战</router-link>
-    <router-link to="/scoreList" tag="button">历史记录</router-link>
+    <MainTabBar />
     <keep-alive exclude="ScoreList">
       <router-view/>
     </keep-alive>
@@ -10,26 +9,23 @@
 
 <script>
 import router from "@/router";
+import MainTabBar from "@/components/tabbar/MainTabBar";
+
 
 export default {
   name: 'App',
+  components: {MainTabBar},
   router
 }
+
 </script>
 
 <style>
-* {
-  box-sizing: border-box !important;
-  border: 0 !important;
-}
-
-body {
-  background-color: skyblue;
-}
+@import "assets/css/base.css";
 
 button {
   background-color: lightgreen;
-  margin: 0 10px;
+  margin-right: 5px;
   font-size: x-large;
   color: green;
 }

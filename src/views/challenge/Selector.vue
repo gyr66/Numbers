@@ -33,10 +33,7 @@ export default {
 
 #selector {
   position: relative;
-  margin-bottom: 100px;
-  height: 100px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 
@@ -46,7 +43,7 @@ export default {
   width: 30%;
   background-color: lightgreen;
   color: green;
-  font-size: xxx-large;
+  font-size: xx-large;
 }
 
 </style>

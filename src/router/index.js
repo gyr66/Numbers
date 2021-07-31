@@ -4,8 +4,8 @@ import Vue from "vue"
 
 Vue.use(VueRouter);
 
-const ChallengeView = () => import("@/components/ChallengeView");
-const ScoreList = () => import("@/components/ScoreList");
+const ChallengeView = () => import("@/views/challenge/ChallengeView");
+const ScoreList = () => import("@/views/scorelist/ScoreListView");
 
 const routes = [
   {

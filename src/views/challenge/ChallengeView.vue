@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Disk from "@/components/Disk/Disk";
-import Selector from "@/components/Selector";
+import Disk from "@/views/challenge/disk/Disk";
+import Selector from "@/views/challenge/Selector";
 import store from "store";
 
 Date.prototype.format = function (fmt) {
