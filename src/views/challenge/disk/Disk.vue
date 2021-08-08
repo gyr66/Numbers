@@ -135,8 +135,8 @@ export default {
       if (this.isChallenging && check(this.numbers, this.dimension)) {
         this.isChallenging = false;
         this.$emit("success", {
-          time: this.seconds,
-          step: this.steps
+          seconds: this.seconds,
+          steps: this.steps
         });
       }
     },
@@ -246,7 +246,7 @@ export default {
 #disk table {
   position: relative;
   width: 372px;
-  left: 2px;
+  left: 4px;
   background-color: lightgreen;
   border-spacing: 2px;
   -moz-user-select: none;
@@ -263,8 +263,11 @@ export default {
 }
 
 #addArea {
-  position: relative;
-  margin-top: 100px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
   font-size: xx-large;
 }
 </style>
