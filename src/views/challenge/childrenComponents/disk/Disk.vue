@@ -23,7 +23,7 @@
 
 <script>
 import $ from "jquery"
-import {checkPosition, check, getRandomStatus} from "@/views/challenge/disk/caculate";
+import {checkPosition, check, getRandomStatus} from "@/views/challenge/childrenComponents/disk/caculate";
 
 export default {
   name: "Disk",

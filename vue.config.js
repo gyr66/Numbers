@@ -12,7 +12,8 @@ module.exports = {
       $: 'jquery',
       jquery: 'jquery',
       jQuery: 'jquery',
-      'window.jQuery': 'jquery'
+      'window.jQuery': 'jquery',
+      Popper: ['popper.js', 'default'],
     }])
     config.resolve.alias
       .set('@', resolve('src'))

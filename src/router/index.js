@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 
 const ChallengeView = () => import("@/views/challenge/ChallengeView");
 const ScoreList = () => import("@/views/scorelist/ScoreListView");
+const test = () => import("@/views/test")
 
 const routes = [
   {
@@ -24,6 +25,13 @@ const routes = [
     component: ChallengeView,
     meta: {
       title: "挑战"
+    }
+  },
+  {
+    path: "/login",
+    component: test,
+    meta: {
+      title: "登录"
     }
   }
 ];

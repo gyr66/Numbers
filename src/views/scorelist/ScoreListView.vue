@@ -1,60 +1,36 @@
 <template>
-  <div>
-    <table>
-      <tr>
-        <th>日期</th>
-        <th>类型</th>
-        <th>时间</th>
-        <th>步数</th>
-      </tr>
-      <tr v-for="item in list">
-        <td>{{ item.key }}</td>
-        <td>{{ item.value.dimension + "*" + item.value.dimension }}</td>
-        <td>{{ item.value.seconds + "秒" }}</td>
-        <td>{{ item.value.steps + "步" }}</td>
-      </tr>
-    </table>
+  <div id="scoreList">
+    <tab-control :titles="['本地历史', '全部历史']" class="tab-control" @viewChange="viewChange"></tab-control>
+    <local-score-list v-if="index === 0"></local-score-list>
+    <RemoteScoreList v-else></RemoteScoreList>
   </div>
 </template>
 
 <script>
-import store from "store"
+import TabControl from "@/components/common/tabcontrol/TabControl";
+import RemoteScoreList from "@/views/scorelist/childrenComponents/ReomoteScoreList";
+import LocalScoreList from "@/views/scorelist/childrenComponents/LocalScoreList";
 
 export default {
   name: "ScoreList",
+  components: {TabControl, RemoteScoreList, LocalScoreList},
   data() {
     return {
-      list: []
+      index: 0
     }
   },
-  created() {
-    store.each((value, key) => {
-      if (value.seconds !== undefined) {
-        this.list.push({key, value});
-      }
-    });
-    this.list.sort((a, b) => {
-      if (a.key > b.key) return -1;
-      else if (a.key === b.key) return 0;
-      return 1;
-    });
+  methods: {
+    viewChange(index) {
+      this.index = index;
+    }
   }
 }
 </script>
 
 <style scoped>
-div {
-  height: 782px;
-  overflow: auto;
+.tab-control {
+  background-color: darkseagreen;
+  color: white;
+  box-shadow: 0 2px 1px rgba(0, 128, 0, .2);
 }
-
-table {
-  border-spacing: 30px;
-  font-size: small;
-  color: green;
-  margin: auto;
-  text-align: center;
-  position: relative;
-}
-
 </style>

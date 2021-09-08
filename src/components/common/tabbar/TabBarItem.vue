@@ -26,7 +26,6 @@ export default {
   },
   methods: {
     itemClick() {
-      console.log(this.link)
       this.$router.replace(this.link)
     }
   }
